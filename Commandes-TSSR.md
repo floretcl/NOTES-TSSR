@@ -1,4 +1,9 @@
 # COMMANDES TSSR
+## Table of Contents
+- [Cisco Commands](#cisco-commands)
+- [Windows Administration](#windows-administration)
+- [Linux/Bash](#linux-bash-commands)
+- [Networking](#réseau--interopérabilité)
 
 ### Commande CISCO IOS Routeur et Switch
 #### 1. MODES ET ACCÈS GÉNÉRAUX
@@ -22,7 +27,8 @@
 #### Lignes (Console et Distante)
 - line console [0] : Configuration du port physique.
 - line vty [0 4] : Configuration Telnet/SSH.
-- password [MDP] puis login : Authentification simple.
+- password [MDP]
+- login : Authentification simple.
 - login local : Utilise les comptes username locaux.
 - transport input [ssh | telnet | all | none] : Choix du protocole.
 - exec-timeout [MIN] [SEC] : Temps d'inactivité avant déconnexion.
@@ -37,10 +43,12 @@
 - no shutdown : Activer l'interface.
 - duplex [auto | full | half] : Mode de transmission.
 #### Spécifique Switch (Commutateur)
-- vlan [ID]name [NOM] : Créer un VLAN.
-- switchport mode access puisswitchport access vlan [ID] : Assigner un port à un VLAN.
+- vlan [ID] name [NOM] : Créer un VLAN.
+- switchport mode access
+- switchport access vlan [ID] : Assigner un port à un VLAN.
 - switchport mode trunk : Faire passer plusieurs VLAN sur un port (802.1Q).
-- interface vlan 1 puisip address [IP] [MASQUE] : IP de management du Switch.
+- interface vlan 1 
+- ip address [IP] [MASQUE] : IP de management du Switch.
 - ip default-gateway [IP PASSERELLE] : Passerelle par défaut du Switch.
 #### 4. ROUTAGE ET SERVICES
 - ip route [IP_DEST] [MASQUE] [IP_PASSERELLE] : Route statique IPv4.
@@ -49,8 +57,10 @@
 - auto secure : Assistant de sécurisation global.
 #### Pré-requis SSH
 1. ip domain-name [NOM DE DOMAINE] : Défini un nom de domaine
-2. crypto key generate rsa general-keys modulus [1024/2048] : Définin une clé de chiffrement SSH
-3. line vty  puis login local puis transport input ssh.
+2. crypto key generate rsa general-keys modulus [1024/2048] : Définir une clé de chiffrement SSH
+3. line vty
+4. login local
+5. transport input ssh.
 #### 5. VÉRIFICATION ET DIAGNOSTIC (SHOW)
 #### États et Performances
 - show [ip/ipv6] interface brief : État résumé des ports (UP/DOWN) et IPs.
