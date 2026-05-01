@@ -350,18 +350,16 @@ esac
 
 #### CRONTAB
 - crontab -e : Modifier | -l : Lister | -r : Supprimer.
-- Syntaxe : mm hh jj MMM JJJ tâche (> log)
+- Syntaxe : mm hh jj MMM JJJ tâche (> log : vers fichier log)
 - mm : minutes (00-59).
 - hh : heures (00-23) .
 - jj : jour du mois (01-31).
-- MMM : mois (01-12 ou abréviation anglaise sur trois lettres : jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec).
-- JJJ : jour de la semaine (1-7 ou abréviation anglaise sur trois lettres : mon, tue, wed, thu, fri, sat, sun).
-- 
-	- : Toutes les valeurs
-	- 
-		- : Plage de valeurs (1-5 : Plage de lundi à venredi)
-	- , : séparateur de valeurs (2,7 : Le mardi et le dimanche par exemple)
-	- / : ignore des séquences de valeurs (*/15 : Toutes les 15 min par exemple)
+- MMM : mois (abréviation anglaise sur trois lettres : jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec ou 01-12).
+- JJJ : jour de la semaine (abréviation anglaise sur trois lettres : mon, tue, wed, thu, fri, sat, sun ou 1-7).
+- ```*``` : Toutes les valeurs
+- ```-``` : Plage de valeurs (1-5 : Plage de 1 à 5) 
+- ```,``` : séparateur de valeurs (2,7 : Le mardi et le dimanche par exemple)
+- ```/``` : ignore des séquences de valeurs (*/15 : Toutes les 15 min par exemple)
 
 #### 3. RESEAU & INTEROPERABILITE
 - Infos IP : ip a
