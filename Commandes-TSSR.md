@@ -1,11 +1,12 @@
 # COMMANDES TSSR
 ## Table of Contents
-- [Cisco Commands](#cisco-commands)
-- [Windows Administration](#windows-administration)
-- [Linux/Bash](#linux-bash-commands)
-- [Networking](#réseau--interopérabilité)
+- [Commandes Cisco](#commandes-cisco)
+- [Commandes Windows](#commandes-windows-et-powershell)
+- [Commandes Linux-Bash](#commandes-linux---bash)
 
-### Commande CISCO IOS Routeur et Switch
+### Commandes CISCO 
+### Routeur et Switch
+
 #### 1. MODES ET ACCÈS GÉNÉRAUX
 - enable : Accès mode privilégié (Prompt #).
 - configure terminal (ou conf t) : Mode configuration globale.
@@ -13,6 +14,7 @@
 - end (ou Ctrl+Z) : Retour direct au mode privilégié.
 - no [X]  : Désactive une configuration.
 - copy running-config startup-config (ou wr) : Sauvegarder en NVRAM.
+
 #### 2. CONFIGURATION DE BASE & SÉCURITÉ
 #### Système et Identification
 - hostname [NOM] : Nommer l'équipement.
@@ -32,6 +34,7 @@
 - login local : Utilise les comptes username locaux.
 - transport input [ssh | telnet | all | none] : Choix du protocole.
 - exec-timeout [MIN] [SEC] : Temps d'inactivité avant déconnexion.
+
 #### 3. CONFIGURATION IP & INTERFACES
 #### IPv4 & IPv6
 - interface [TYPE/NUMERO] : Entrer dans la config du port (ex: int g0/0).
@@ -50,6 +53,7 @@
 - interface vlan 1 
 - ip address [IP] [MASQUE] : IP de management du Switch.
 - ip default-gateway [IP PASSERELLE] : Passerelle par défaut du Switch.
+
 #### 4. ROUTAGE ET SERVICES
 - ip route [IP_DEST] [MASQUE] [IP_PASSERELLE] : Route statique IPv4.
 - no ip http server : Désactiver l'interface web (sécurité).
@@ -61,6 +65,7 @@
 3. line vty
 4. login local
 5. transport input ssh.
+
 #### 5. VÉRIFICATION ET DIAGNOSTIC (SHOW)
 #### États et Performances
 - show [ip/ipv6] interface brief : État résumé des ports (UP/DOWN) et IPs.
@@ -86,7 +91,8 @@
 
 #### CONFIGURATION COMPLÈTE : ROUTEUR CISCO
 #### 1. Sécurisation et Accès
-```enable
+```
+enable
 configure terminal
 hostname R1
 no ip domain-lookup                 ! Évite les blocages sur erreurs de frappe
@@ -95,8 +101,10 @@ service password-encryption         ! Chiffrer tous les mots de passe visibles
 banner motd #ACCES PRIVE - R1#      ! Message d'avertissement
 
 ```
+
 #### 2. Configuration SSH
-```ip domain-name lab.local            ! Requis pour générer les clés
+```
+ip domain-name lab.local            ! Requis pour générer les clés
 crypto key generate rsa             ! Choisir 2048 bits
 username admin secret cisco         ! Utilisateur local pour SSH
 line vty 0 4                        ! Accès à distance
@@ -106,8 +114,10 @@ line vty 0 4                        ! Accès à distance
 exit
 
 ```
+
 #### 3. Interfaces et Routage (IPv4/IPv6)
-```ipv6 unicast-routing                ! Activer le routage IPv6 globalement
+```
+ipv6 unicast-routing                ! Activer le routage IPv6 globalement
 interface GigabitEthernet0/0/0
  description LIEN_LAN
  ip address 192.168.1.254 255.255.255.0
@@ -123,7 +133,8 @@ ip route 0.0.0.0 0.0.0.0 [IP_SUIVANT]
 
 #### CONFIGURATION COMPLÈTE : SWITCH CISCO
 #### 1. Sécurité de base
-```enable
+```
+enable
 configure terminal
 hostname SW1
 enable secret class
@@ -132,16 +143,20 @@ line console 0
 exit
 
 ```
+
 #### 2. Gestion des VLANs
-```vlan 10
+```
+vlan 10
  name COMPTA
 vlan 20
  name INFORMATIQUE
 exit
 
 ```
+
 #### 3. Assignation des Ports
-```! Ports d'accès (Ordinateurs, Imprimantes)
+```
+! Ports d'accès (Ordinateurs, Imprimantes)
 interface range fastEthernet 0/1-10
  switchport mode access
  switchport access vlan 10
@@ -153,8 +168,10 @@ interface fastEthernet 0/24
  description TRUNK_VERS_R1
 
 ```
+
 #### 4. Adresse de Management (SVI)
-```! Permet de prendre la main sur le switch à distance via son IP
+```  
+! Permet de prendre la main sur le switch à distance via son IP
 interface vlan 1
  ip address 192.168.1.10 255.255.255.0
  no shutdown
@@ -164,7 +181,8 @@ ip default-gateway 192.168.1.254    ! Passerelle pour joindre le switch hors du 
 ```
 
 
-### OS WINDOWS : COMMANDES ET POWERSHELL
+### COMMANDES WINDOWS ET POWERSHELL
+
 #### 1. LIGNE DE COMMANDE (CMD)
 #### Réseau et Connectivité
 - ipconfig /all : Configuration complète (MAC, DNS, DHCP).
@@ -184,6 +202,7 @@ ip default-gateway 192.168.1.254    ! Passerelle pour joindre le switch hors du 
 - gpresult /r : Affiche le résumé des GPO appliquées (RSOP).
 - sfc /scannow : Analyse et répare l'intégrité des fichiers système.
 - net user [user] /domain : Vérifie les informations d'un compte dans l'AD.
+
 #### 2. POWERSHELL : ESSENTIELS & SYSTÈME
 #### Gestion de l'exécution et Scripts
 - Get-ExecutionPolicy : Voir le niveau de sécurité des scripts.
@@ -203,6 +222,7 @@ ip default-gateway 192.168.1.254    ! Passerelle pour joindre le switch hors du 
 - Test-NetConnection -ComputerName [IP] -Port [N] : Vérifie l'ouverture d'un port (TNC).
 - ConvertTo-HTML :
 - Exemple : Get-Process | Select-Object Name, Status | ConvertTo-HTML > C:\processes.html (Génère un rapport web des processus).
+
 #### 3. ADMINISTRATION ACTIVE DIRECTORY (Module RSAT)
 #### Gestion des Utilisateurs
 - Get-ADUser -Identity [Login] -Properties * : Détails complets d'un utilisateur.
@@ -217,17 +237,20 @@ ip default-gateway 192.168.1.254    ! Passerelle pour joindre le switch hors du 
 - Get-ADGroupMember -Identity "[Groupe]" : Lister les membres d'un groupe.
 - Get-ADOrganizationalUnit -Filter * : Lister toutes les Unités d'Organisation.
 - Get-ADComputer -Filter * : Lister les ordinateurs du domaine.
+
 #### 4. LOGIQUE POWERSHELL : PIPES ET FILTRES
-PowerShell traite des objets et non du texte simple. On utilise le symbole | pour passer l'objet à la commande suivante.
+PowerShell traite des objets et non du texte simple. On utilise le pipe pour passer l'objet à la commande suivante.
 - Le Filtre ( Where-Object) :
 - Get-Service | Where-Object {$_.Status -eq "Stopped"} (Affiche les services arrêtés).
 - La Sélection ( Select-Object) :
 - Get-ADUser -Filter * | Select-Object Name, SamAccountName (Affiche uniquement deux colonnes).
 - Le Tri ( Sort-Object) :
 - Get-Process | Sort-Object CPU -Descending (Classe par consommation CPU).
+
 #### 5. OUTILS GPO & DIAGNOSTIC AVANCÉ
 - gpresult /h report.html : Génère un rapport HTML détaillé des GPO (très visuel).
 - rsop.msc : Console graphique du "Jeu de stratégie résultant".
+
 #### 6. RÉSEAU & INTEROPÉRABILITÉ
 - Infos IP : ipconfig /all
 - Passerelle : route print
@@ -239,9 +262,10 @@ PowerShell traite des objets et non du texte simple. On utilise le symbole | pou
 - Test port TCP : tnc [IP] -p [Port] (PS)
 
 
-### COMMANDES SYSTÈME UNIX / LINUX - BASH
-#### 1. SYSTÈME UNIX / LINUX & BASH
-#### Commandes de Base
+### COMMANDES LINUX - BASH
+
+#### 1. COMMANDES GÉNÉRALES
+#### Commandes de base
 - echo $SHELL : Obtenir le shell actuel.
 - whoami / id : Nom d'utilisateur courant / Détails (UID, GID).
 - cd : Changer de répertoire ( ~ : home, .. : parent, - : précédent).
@@ -273,7 +297,8 @@ PowerShell traite des objets et non du texte simple. On utilise le symbole | pou
 - Umask : Droits par défaut.
 - Calcul : 777 (rép) ou 666 (fichier) - Valeur Umask.
 - Ex: umask 022 -> Rép: 755 / Fich: 644.
-#### 2. SCRIPTING BASH & AUTOMATISATION
+
+#### 2. SCRIPTING & AUTOMATISATION
 #### Caractères Spéciaux & Logique
 - ; : Séparateur de commandes.
 - | : Pipe (Résultat A devient entrée de B).
@@ -287,7 +312,8 @@ PowerShell traite des objets et non du texte simple. On utilise le symbole | pou
 #### Structures de Contrôle
 - Condition :
 - If
-```if [ condition ]; then
+```bash
+if [ condition ]; then
   # actions
 elif [ cond2 ]; then
   # actions
@@ -297,26 +323,32 @@ fi
 ```
 - Boucles :
 - For
-```for i in $liste; do
+```bash
+for i in $liste; do
 ...
 done
 ```
 - While
-```while [ condition ]; do
+```bash
+while [ condition ]; do
 ...
 done
 ```
 - Do while
-```until [ condition ]; do
+```bash
+until [ condition ]; do
 ...
 done
 ```
-- case $val in
+- Case :
+```bash
+case $val in
 cas1) action;;
 cas2) action;;
 esac
+```
 
-#### Automatisation (CRONTAB)
+#### CRONTAB
 - crontab -e : Modifier | -l : Lister | -r : Supprimer.
 - Syntaxe : mm hh jj MMM JJJ tâche (> log)
 - mm : minutes (00-59).
@@ -330,7 +362,8 @@ esac
 		- : Plage de valeurs (1-5 : Plage de lundi à venredi)
 	- , : séparateur de valeurs (2,7 : Le mardi et le dimanche par exemple)
 	- / : ignore des séquences de valeurs (*/15 : Toutes les 15 min par exemple)
-#### 3. RÉSEAU & INTEROPÉRABILITÉ
+
+#### 3. RESEAU & INTEROPERABILITE
 - Infos IP : ip a
 - Passerelle : ip route
 - Libérer DHCP : sudo dhclient -r
